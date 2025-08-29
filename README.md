@@ -1,3 +1,0 @@
-# RustNotes
-# RustNotes
-# RustNotes
