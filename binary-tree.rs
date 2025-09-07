@@ -1,3 +1,18 @@
+// Binary Search Tree Implementation
+//
+// A generic binary search tree that maintains sorted order. Values are inserted
+// based on comparison (left < parent < right). Supports insert, remove, contains,
+// and basic operations. Does not self-balance - may become unbalanced with 
+// sequential insertions.
+//
+// Design choices:
+// - Uses Box<Node<T>> for child pointers (heap allocation, owned references)
+// - Recursive algorithms for all operations (insert, remove, contains)
+// - No duplicates allowed - inserting existing value is ignored
+// - Remove uses in-order successor for nodes with two children
+// - Simple owned pointer design eliminates reference counting overhead
+// - Trade-off: May degrade to O(n) performance with sequential insertions
+
 #[derive(Debug, Clone)]
 struct Node<T> {
     value: T,

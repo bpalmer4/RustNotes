@@ -1,4 +1,16 @@
-// Simple single linked list
+// Singly-Linked List Implementation
+//
+// A generic singly-linked list with forward traversal only. Supports push/pop
+// from the front, indexed removal, contains checking, and basic operations.
+// Requires T to implement PartialEq and Debug for comparison and printing.
+//
+// Design choices:
+// - Uses Box<Node<T>> for next pointers (heap allocation, owned references)
+// - Forward-only traversal keeps structure simple and cache-friendly
+// - Indexed operations require O(n) traversal to find position
+// - No tail pointer - optimized for stack-like operations (push/pop front)
+// - Simple ownership model with automatic cleanup via Box dropping
+// - Trade-off: Fast front operations, slower random access and back operations
 
 use std::fmt::Debug;
 
@@ -99,6 +111,21 @@ where
     	self.head = None;
 	    self.size = 0;
 	}
+
+    // Reverse the list in-place
+    pub fn reverse(&mut self) {
+        let mut prev = None;
+        let mut current = self.head.take();
+        
+        while let Some(mut node) = current {
+            let next = node.next.take();
+            node.next = prev;
+            prev = Some(node);
+            current = next;
+        }
+        
+        self.head = prev;
+    }
 }
 
 // --- Example usage
@@ -151,8 +178,20 @@ fn main() {
     
     println!("List length: {}", list.len());
     
+    // Test reverse
+    println!("\n--- Testing reverse ---");
+    let mut reverse_list = LinkedList::new();
+    reverse_list.push(1);
+    reverse_list.push(2);
+    reverse_list.push(3);
+    reverse_list.push(4);
+    
+    println!("Before reverse: {:?}", reverse_list);
+    reverse_list.reverse();
+    println!("After reverse: {:?}", reverse_list);
+    
     // Clear the list 
     list.clear();
-    println!("List after clear: {:?}", list);
+    println!("\nList after clear: {:?}", list);
     println!("Is empty: {}", list.is_empty());
 }

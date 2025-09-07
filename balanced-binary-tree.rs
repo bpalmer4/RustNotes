@@ -3,6 +3,14 @@
 // A self-balancing binary search tree where the heights of the two child 
 // subtrees of any node differ by at most one. Both insertion and deletion
 // maintain this property through rotations, guaranteeing O(log n) operations.
+//
+// Design choices:
+// - Uses Box<Node<T>> for child pointers (heap allocation, owned references)
+// - Each node stores its height for efficient balance factor calculation
+// - Four rotation types: left, right, left-right, right-left for rebalancing
+// - Recursive insertion/deletion with rebalancing on the way back up
+// - AVL property maintained: |height(left) - height(right)| <= 1 for all nodes
+// - Trade-off: Extra height storage and rotation overhead for guaranteed O(log n) performance
 
 #[derive(Debug, Clone)]
 struct Node<T> {
